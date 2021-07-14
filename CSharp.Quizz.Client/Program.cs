@@ -24,35 +24,53 @@ namespace CSharp.Quizz.Client
 
         private static async Task StartQuizz()
         {
-            AnsiConsole.MarkupLine("Welcome to the .NET Quizz! Made by [red]rcamine[/]");
+            AnsiConsole.MarkupLine("Welcome to the [bold deepskyblue1].NET Quizz[/]! Made by [dim fuchsia]rcamine[/].");
             AnsiConsole.WriteLine();
-            string username = AnsiConsole.Ask<string>("What's your [green]name[/]?");
+            string username = AnsiConsole.Ask<string>("What's your [aqua]name[/]?");
             AnsiConsole.WriteLine();
             var email = AnsiConsole
-                .Prompt(new TextPrompt<string>("[grey][[Optional]][/] Please type your [green]email[/]?")
+                .Prompt(new TextPrompt<string>("[grey][[Optional]][/] Please type your [aqua]email[/]?")
                 .AllowEmpty());
 
             var user = new User(username, email);
 
-            await AnsiConsole.Status().StartAsync($"Preparing your quizz...",
-                async ctx =>
-                {
-                    ctx.Spinner(Spinner.Known.Star);
-                    ctx.Status = "Preparing your quizz...";
-                    await Task.Delay(TimeSpan.FromSeconds(2));
-                    ctx.Status = "Loading complete! Initiating your quizz...";
-                    await Task.Delay(TimeSpan.FromSeconds(1));
-                });
+            await AnsiConsole.Status().StartAsync("Preparing your quizz", async ctx =>
+            {
+                ctx.Spinner(Spinner.Known.Dots);
+                ctx.Status = "[bold]Preparing your quizz...[/]";
+                await Task.Delay(TimeSpan.FromSeconds(3));
+
+                ctx.Status = "[bold green]Loading complete![/]";
+                await Task.Delay(500);
+            });
 
             var quizzList = _quizzRepository.RandomizeQuizz();
             Console.Clear();
 
+            var count = 0;
+            var percent = 0;
+
             foreach (var quizz in quizzList)
             {
                 Console.Clear();
-                string anwser = AnsiConsole.Ask<string>(quizz.ToString());
+                AnsiConsole.MarkupLine($"[yellow]{percent}% completed.[/]");
+
+                var questionTable = new Table();
+                questionTable.AddColumn("Difficulty");
+                questionTable.AddColumn(new TableColumn("Categories").Centered());
+                questionTable.AddRow($"{quizz.Difficulty}", $"[green]{quizz.Category}[/]");
+                AnsiConsole.Render(questionTable);
+                AnsiConsole.MarkupLine($"[lightyellow3]{quizz.Description}[/]");
+
+                string anwser = Console.ReadLine();
                 _userRepository.SaveAnswer(user, quizz, anwser);
+                count++;
+                percent = count * quizzList.Count;
             }
+
+            Console.Clear();
+            AnsiConsole.MarkupLine($"[bold green]{percent}% completed![/]");
+            AnsiConsole.WriteLine();
 
             PrintAnsweredQuestions();
 
@@ -69,7 +87,7 @@ namespace CSharp.Quizz.Client
             AnsiConsole.Render(
                 new FigletText(".NET Quizz")
                     .LeftAligned()
-                    .Color(Color.Red));
+                    .Color(Color.LightCoral));
 
             AnsiConsole.WriteLine();
         }

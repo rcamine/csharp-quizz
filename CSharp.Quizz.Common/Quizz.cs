@@ -16,13 +16,5 @@ namespace CSharp.Quizz.Common
         public string Description { get; private set; }
         public Difficulty Difficulty { get; private set; }
         public Category Category { get; private set; }
-
-        public override string ToString()
-        {
-            return 
-                $"[green][[Difficulty]][/]: {Difficulty} \n" +
-                $"[green][[Categories]][/]: {Category} \n" +
-                $"{Description}";
-        }
     }
 }
