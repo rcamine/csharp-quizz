@@ -12,48 +12,35 @@ namespace CSharp.Quizz.Client
 
         public static async Task Main(string[] args)
         {
-            PrintUsage();
+            Console.Clear();
 
-            var option = Console.ReadLine();
+            PrintWelcome();
 
-            switch (option)
-            {
-                case "/start":
-                    await StartQuizz();
-                    break;
-                case "/quit":
-                    Quit();
-                    return;
-                default:
-                    Console.WriteLine("Invalid parameter, closing");
-                    return;
-            }
-        }
+            await StartQuizz();
 
-        private static void Quit()
-        {
-            return;
+            Console.WriteLine("Type enter to close ...");
+            Console.ReadLine();
         }
 
         private static async Task StartQuizz()
         {
-            Console.WriteLine("Welcome to the .NET Quizz!");
+            AnsiConsole.MarkupLine("Welcome to the .NET Quizz! Made by [red]rcamine[/]");
             AnsiConsole.WriteLine();
-            Console.WriteLine("Please type your name:");
-            var username = Console.ReadLine();
+            string username = AnsiConsole.Ask<string>("What's your [green]name[/]?");
             AnsiConsole.WriteLine();
-            Console.WriteLine($"Ok {username} now please type your email to initiate your quizz:");
-            var email = Console.ReadLine();
+            var email = AnsiConsole
+                .Prompt(new TextPrompt<string>("[grey][[Optional]][/] Please type your [green]email[/]?")
+                .AllowEmpty());
 
             var user = new User(username, email);
 
             await AnsiConsole.Status().StartAsync($"Preparing your quizz...",
                 async ctx =>
                 {
-                    ctx.Spinner(Spinner.Known.Dots);
-                    ctx.Status = "Preparando seu teste...";
-                    await Task.Delay(TimeSpan.FromSeconds(5));
-                    ctx.Status = "Teste completo! Iniciando...";
+                    ctx.Spinner(Spinner.Known.Star);
+                    ctx.Status = "Preparing your quizz...";
+                    await Task.Delay(TimeSpan.FromSeconds(2));
+                    ctx.Status = "Loading complete! Initiating your quizz...";
                     await Task.Delay(TimeSpan.FromSeconds(1));
                 });
 
@@ -63,15 +50,13 @@ namespace CSharp.Quizz.Client
             foreach (var quizz in quizzList)
             {
                 Console.Clear();
-                Console.WriteLine(quizz);
-                var anwser = Console.ReadLine();
+                string anwser = AnsiConsole.Ask<string>(quizz.ToString());
                 _userRepository.SaveAnswer(user, quizz, anwser);
             }
 
             PrintAnsweredQuestions();
 
             Console.WriteLine($"Your quizz now is finished! Thank you {user.Username} for participating!");
-
         }
 
         private static void PrintAnsweredQuestions()
@@ -79,33 +64,13 @@ namespace CSharp.Quizz.Client
             Console.WriteLine("Printing your answers... (Unfinished)");
         }
 
-        private static void PrintUsage()
+        private static void PrintWelcome()
         {
-            var table = new Table()
-            {
-                Border = TableBorder.None,
-                Expand = true,
-            }.HideHeaders();
-            table.AddColumn(new TableColumn("One"));
+            AnsiConsole.Render(
+                new FigletText(".NET Quizz")
+                    .LeftAligned()
+                    .Color(Color.Red));
 
-            var markup = new Markup(
-               "Type [bold fuchsia]/start[/] to start your quizz.\n"
-               + "Or type [bold fuchsia]/quit[/] to leave.");
-
-            table.AddColumn(new TableColumn("Two"));
-
-            var menuTable = new Table()
-                .HideHeaders()
-                .Border(TableBorder.None)
-                .AddColumn(new TableColumn("Content"));
-
-            menuTable
-                .AddEmptyRow()
-                .AddRow(markup);
-
-            table.AddRow(menuTable);
-
-            AnsiConsole.Render(table);
             AnsiConsole.WriteLine();
         }
     }

@@ -9,9 +9,13 @@ Feature TODO List:
 - UI with Angular.
 - i8n
 - Make it possible to email the answers to the owner.
+- Show prints on README.
 
 Refactor/Tecnical TODO List:
 - Change Program.cs to top level statements.
 - Fix this TODO List with proper markdown.
 - Turn this into Orleans ecosystem.
 - Persistence (in memory/sqlserver/redis)
+
+Epics:
+- Make selectable answers so we don't need manual correction.

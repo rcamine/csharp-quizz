@@ -19,7 +19,10 @@ namespace CSharp.Quizz.Common
 
         public override string ToString()
         {
-            return $"[DIFFICULTY]: {Difficulty} | [CATEGORIES]: {Category} | {Description}";
+            return 
+                $"[green][[Difficulty]][/]: {Difficulty} \n" +
+                $"[green][[Categories]][/]: {Category} \n" +
+                $"{Description}";
         }
     }
 }
