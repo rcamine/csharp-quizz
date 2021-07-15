@@ -29,7 +29,7 @@ namespace CSharp.Quizz.Client
             string username = AnsiConsole.Ask<string>("What's your [aqua]name[/]?");
             AnsiConsole.WriteLine();
             var email = AnsiConsole
-                .Prompt(new TextPrompt<string>("[grey][[Optional]][/] Please type your [aqua]email[/]?")
+                .Prompt(new TextPrompt<string>("[grey][[Optional]][/] Please type your [aqua]email[/]")
                 .AllowEmpty());
 
             var user = new User(username, email);
@@ -53,7 +53,7 @@ namespace CSharp.Quizz.Client
             foreach (var quizz in quizzList)
             {
                 Console.Clear();
-                AnsiConsole.MarkupLine($"[yellow]{percent}% completed.[/]");
+                AnsiConsole.MarkupLine($"[aqua]{count}[/] of [aqua]{quizzList.Count}[/] questions answered [yellow]({percent}%)[/]");
 
                 var questionTable = new Table();
                 questionTable.AddColumn("Difficulty");

@@ -9,10 +9,10 @@ namespace CSharp.Quizz.Common
         private static readonly IReadOnlyCollection<Quizz> QuizzList = new HashSet<Quizz>()
         {
             new("O C# é uma linguagem compilada, tipada e gerenciada, o que isto significa?", Difficulty.Easy, Category.DotNet | Category.ComputerScience),
-            new("O que diferencia uma linguagem compilada de uma interpretada?", Difficulty.Easy, Category.ComputerScience),
+            new("O que diferencia uma linguagem compilada de uma interpretada?", Difficulty.Hard, Category.ComputerScience),
             new("Explique como o C# funciona", Difficulty.Easy, Category.CSharp),
-            new("O que é o CLR?", Difficulty.Medium, Category.DotNet),
-            new("O que é IL?", Difficulty.Medium, Category.DotNet),
+            new("O que é o CLR?", Difficulty.Hard, Category.DotNet),
+            new("O que é IL?", Difficulty.Hard, Category.DotNet),
             new("O que é um Framework?", Difficulty.Easy, Category.ComputerScience),
             new("O que é o .NET?", Difficulty.Easy, Category.DotNet),
             new("O que é o .NET Standard?", Difficulty.Easy, Category.DotNet),
@@ -134,34 +134,44 @@ namespace CSharp.Quizz.Common
             new("O que é Upcast e Downcast?", Difficulty.Easy, Category.ComputerScience),
             new("O que são Interfaces?", Difficulty.Easy, Category.ComputerScience),
             new("O que são Classes abstratas?", Difficulty.Easy, Category.ComputerScience),
-            new("Qual a finalidade das Classes seladas?", Difficulty.Easy, Category.ComputerScience),
+            new("Qual a finalidade das Classes seladas?", Difficulty.Medium, Category.ComputerScience),
             new("O que é Sobrecarga de métodos?", Difficulty.Easy, Category.ComputerScience),
             new("O que é Sobrescrita de método?", Difficulty.Easy, Category.ComputerScience),
             new("Como podemos Comparar dois objetos no C#?", Difficulty.Easy, Category.ComputerScience),
-            new("Qual a finalidade do Dispose?", Difficulty.Easy, Category.ComputerScience),
+            new("Qual a finalidade do Dispose?", Difficulty.Medium, Category.ComputerScience),
             new("O que é Encapsulamento?", Difficulty.Easy, Category.ComputerScience),
             new("O que é Polimorfismo?", Difficulty.Easy, Category.ComputerScience),
             new("O que são Tipos complexos?", Difficulty.Easy, Category.ComputerScience),
             new("O que são Delegates?", Difficulty.Easy, Category.ComputerScience),
             new("O que são events?", Difficulty.Easy, Category.ComputerScience),
             new("Qual a diferença entre Events e Delegates?", Difficulty.Easy, Category.ComputerScience),
-            new("O que são os generics?", Difficulty.Easy, Category.ComputerScience),
-            new("Como restringimos um tipo genérico?", Difficulty.Easy, Category.ComputerScience),
+            new("O que são os generics?", Difficulty.Medium, Category.ComputerScience),
+            new("Como restringimos um tipo genérico?", Difficulty.Medium, Category.ComputerScience),
             new("Como tratamos erros no C#?", Difficulty.Easy, Category.ComputerScience),
             new("Qual a finalidade do finally?", Difficulty.Easy, Category.ComputerScience),
             new("Para que serve o Try/Parse?", Difficulty.Easy, Category.ComputerScience),
-            new("O que são Tasks?", Difficulty.Easy, Category.ComputerScience),
-            new("Para que serve async/await?", Difficulty.Easy, Category.ComputerScience),
-            new("Qual a diferença entre Task.FromResult e o uso de await?", Difficulty.Easy, Category.ComputerScience),
-            new("Para que usamos a interface IEquatable?", Difficulty.Easy, Category.ComputerScience),
-            new("Para que usamos a interface IComparable?", Difficulty.Easy, Category.ComputerScience),
+            new("O que são Tasks?", Difficulty.Hard, Category.ComputerScience),
+            new("Para que serve async/await?", Difficulty.Hard, Category.ComputerScience),
+            new("Qual a diferença entre Task.FromResult e o uso de await?", Difficulty.Hard, Category.ComputerScience),
+            new("Para que usamos a interface IEquatable?", Difficulty.Hard, Category.ComputerScience),
+            new("Para que usamos a interface IComparable?", Difficulty.Hard, Category.ComputerScience),
             new("Quando utilizamos a interface IDisposable?", Difficulty.Easy, Category.ComputerScience),
-            new("O que são Extension methods?", Difficulty.Easy, Category.ComputerScience)
+            new("O que são Extension methods?", Difficulty.Medium, Category.ComputerScience)
         };
 
+        //TODO: Make a parameter for list capacity
         public List<Quizz> RandomizeQuizz()
         {
-            return QuizzList.OrderBy(a => Guid.NewGuid()).Take(10).ToList();
+            var randomizedQuizz = new List<Quizz>(10);
+
+            randomizedQuizz
+                .AddRange(QuizzList.Where(x => x.Difficulty == Difficulty.Easy).OrderBy(a => Guid.NewGuid()).Take(5));
+            randomizedQuizz
+                .AddRange(QuizzList.Where(x => x.Difficulty == Difficulty.Medium).OrderBy(a => Guid.NewGuid()).Take(3));
+            randomizedQuizz
+                .AddRange(QuizzList.Where(x => x.Difficulty == Difficulty.Hard).OrderBy(a => Guid.NewGuid()).Take(2));
+
+            return randomizedQuizz.OrderBy(x => Guid.NewGuid()).ToList();
         }
     }
 }
