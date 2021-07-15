@@ -7,7 +7,7 @@ namespace CSharp.Quizz.Client
 {
     public static class Program
     {
-        private static QuizzRepository _quizzRepository = new();
+        private static QuestionRepository _questionRepository = new();
         private static UserRepository _userRepository = new();
 
         public static async Task Main(string[] args)
@@ -16,15 +16,15 @@ namespace CSharp.Quizz.Client
 
             PrintWelcome();
 
-            await StartQuizz();
+            await StartInterview();
 
             Console.WriteLine("Type enter to close ...");
             Console.ReadLine();
         }
 
-        private static async Task StartQuizz()
+        private static async Task StartInterview()
         {
-            AnsiConsole.MarkupLine("Welcome to the [bold deepskyblue1].NET Quizz[/]! Made by [dim fuchsia]rcamine[/].");
+            AnsiConsole.MarkupLine("Welcome to the [bold deepskyblue1].NET Question[/]! Made by [dim fuchsia]rcamine[/].");
             AnsiConsole.WriteLine();
             string username = AnsiConsole.Ask<string>("What's your [aqua]name[/]?");
             AnsiConsole.WriteLine();
@@ -44,28 +44,28 @@ namespace CSharp.Quizz.Client
                 await Task.Delay(500);
             });
 
-            var quizzList = _quizzRepository.RandomizeQuizz();
+            var questionList = _questionRepository.GetRandomizedQuestions();
             Console.Clear();
 
             var count = 0;
             var percent = 0;
 
-            foreach (var quizz in quizzList)
+            foreach (var question in questionList)
             {
                 Console.Clear();
-                AnsiConsole.MarkupLine($"[aqua]{count}[/] of [aqua]{quizzList.Count}[/] questions answered [yellow]({percent}%)[/]");
+                AnsiConsole.MarkupLine($"[aqua]{count}[/] of [aqua]{questionList.Count}[/] questions answered [yellow]({percent}%)[/]");
 
                 var questionTable = new Table();
                 questionTable.AddColumn("Difficulty");
                 questionTable.AddColumn(new TableColumn("Categories").Centered());
-                questionTable.AddRow($"{quizz.Difficulty}", $"[green]{quizz.Category}[/]");
+                questionTable.AddRow($"{question.Difficulty}", $"[green]{question.Category}[/]");
                 AnsiConsole.Render(questionTable);
-                AnsiConsole.MarkupLine($"[lightyellow3]{quizz.Description}[/]");
+                AnsiConsole.MarkupLine($"[lightyellow3]{question.Description}[/]");
 
                 string anwser = Console.ReadLine();
-                _userRepository.SaveAnswer(user, quizz, anwser);
+                _userRepository.SaveAnswer(user, question, anwser);
                 count++;
-                percent = count * quizzList.Count;
+                percent = count * questionList.Count;
             }
 
             Console.Clear();
@@ -85,7 +85,7 @@ namespace CSharp.Quizz.Client
         private static void PrintWelcome()
         {
             AnsiConsole.Render(
-                new FigletText(".NET Quizz")
+                new FigletText(".NET Question")
                     .LeftAligned()
                     .Color(Color.LightCoral));
 

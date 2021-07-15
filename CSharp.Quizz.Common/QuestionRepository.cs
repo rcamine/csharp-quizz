@@ -4,9 +4,9 @@ using System.Linq;
 
 namespace CSharp.Quizz.Common
 {
-    public class QuizzRepository
+    public class QuestionRepository
     {
-        private static readonly IReadOnlyCollection<Quizz> QuizzList = new HashSet<Quizz>()
+        private static readonly IReadOnlyCollection<Question> QuestionList = new HashSet<Question>()
         {
             new("O C# é uma linguagem compilada, tipada e gerenciada, o que isto significa?", Difficulty.Easy, Category.DotNet | Category.ComputerScience),
             new("O que diferencia uma linguagem compilada de uma interpretada?", Difficulty.Hard, Category.ComputerScience),
@@ -160,18 +160,18 @@ namespace CSharp.Quizz.Common
         };
 
         //TODO: Make a parameter for list capacity
-        public List<Quizz> RandomizeQuizz()
+        public List<Question> GetRandomizedQuestions()
         {
-            var randomizedQuizz = new List<Quizz>(10);
+            var randomizedQuestion = new List<Question>(10);
 
-            randomizedQuizz
-                .AddRange(QuizzList.Where(x => x.Difficulty == Difficulty.Easy).OrderBy(a => Guid.NewGuid()).Take(5));
-            randomizedQuizz
-                .AddRange(QuizzList.Where(x => x.Difficulty == Difficulty.Medium).OrderBy(a => Guid.NewGuid()).Take(3));
-            randomizedQuizz
-                .AddRange(QuizzList.Where(x => x.Difficulty == Difficulty.Hard).OrderBy(a => Guid.NewGuid()).Take(2));
+            randomizedQuestion
+                .AddRange(QuestionList.Where(x => x.Difficulty == Difficulty.Easy).OrderBy(a => Guid.NewGuid()).Take(5));
+            randomizedQuestion
+                .AddRange(QuestionList.Where(x => x.Difficulty == Difficulty.Medium).OrderBy(a => Guid.NewGuid()).Take(3));
+            randomizedQuestion
+                .AddRange(QuestionList.Where(x => x.Difficulty == Difficulty.Hard).OrderBy(a => Guid.NewGuid()).Take(2));
 
-            return randomizedQuizz.OrderBy(x => Guid.NewGuid()).ToList();
+            return randomizedQuestion.OrderBy(x => Guid.NewGuid()).ToList();
         }
     }
 }

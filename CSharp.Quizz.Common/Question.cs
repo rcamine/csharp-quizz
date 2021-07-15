@@ -2,7 +2,7 @@
 
 namespace CSharp.Quizz.Common
 {
-    public record User(string Username, string Email)
+    public record Question(string Description, Difficulty Difficulty, Category Category)
     {
         public Guid Id { get; private set; } = Guid.NewGuid();
     }
