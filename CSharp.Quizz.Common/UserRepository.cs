@@ -8,7 +8,7 @@ namespace CSharp.Quizz.Common
         private static readonly IDictionary<User, List<(Guid, string)>> AnsweredQuestions 
             = new Dictionary<User, List<(Guid, string)>>();
 
-        public void SaveAnswer(User user, Quizz quizz, string answer)
+        public void SaveAnswer(User user, Question quizz, string answer)
         {
             if (AnsweredQuestions.TryGetValue(user, out var answeredQuestions))
             {
