@@ -15,7 +15,6 @@ namespace CSharp.Quizz.Client
             Console.Clear();
 
             PrintWelcome();
-
             await StartInterview();
 
             Console.WriteLine("Type enter to close ...");
@@ -26,7 +25,7 @@ namespace CSharp.Quizz.Client
         {
             AnsiConsole.MarkupLine("Welcome to the [bold deepskyblue1].NET Question[/]! Made by [dim fuchsia]rcamine[/].");
             AnsiConsole.WriteLine();
-            string username = AnsiConsole.Ask<string>("What's your [aqua]name[/]?");
+            var username = AnsiConsole.Ask<string>("What's your [aqua]name[/]?");
             AnsiConsole.WriteLine();
             var email = AnsiConsole
                 .Prompt(new TextPrompt<string>("[grey][[Optional]][/] Please type your [aqua]email[/]")
@@ -44,7 +43,7 @@ namespace CSharp.Quizz.Client
                 await Task.Delay(500);
             });
 
-            var questionList = _questionRepository.GetRandomizedQuestions();
+            var questionList = _questionRepository.GetRandomizedQuestions(Seniority.Senior, 10);
             Console.Clear();
 
             var count = 0;
@@ -62,7 +61,7 @@ namespace CSharp.Quizz.Client
                 AnsiConsole.Render(questionTable);
                 AnsiConsole.MarkupLine($"[lightyellow3]{question.Description}[/]");
 
-                string anwser = Console.ReadLine();
+                var anwser = Console.ReadLine();
                 _userRepository.SaveAnswer(user, question, anwser);
                 count++;
                 percent = count * questionList.Count;

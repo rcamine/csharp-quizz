@@ -159,10 +159,9 @@ namespace CSharp.Quizz.Common
             new("O que são Extension methods?", Difficulty.Medium, Category.ComputerScience)
         };
 
-        //TODO: Make a parameter for list capacity
-        public List<Question> GetRandomizedQuestions()
+        public List<Question> GetRandomizedQuestions(Seniority seniority, int numberOfQuestions)
         {
-            var randomizedQuestion = new List<Question>(10);
+            var randomizedQuestion = new List<Question>(numberOfQuestions);
 
             randomizedQuestion
                 .AddRange(QuestionList.Where(x => x.Difficulty == Difficulty.Easy).OrderBy(a => Guid.NewGuid()).Take(5));

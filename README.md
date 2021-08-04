@@ -2,7 +2,7 @@ C# Quizz inspired by balta.io questions:
 - https://balta.io/blog/perguntas-entrevista-csharp
 
 Refactor/Tecnical TODO List:
-- Fix the QuizzList to proper Difficulty/Categories.
+- Fix the QuizzList to proper Difficulty/Categories (this will take ages).
 - Randomizer question to reach x questions containing 5 easy, 5 medium and 5 hard questions (try to balance by categories)
 - UI with Console.Spectre (emphasys on code).
 - i8n
