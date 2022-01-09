@@ -1,7 +1,7 @@
-C# Quizz inspired by balta.io questions:
-- https://balta.io/blog/perguntas-entrevista-csharp
+# C# Quizz inspired by balta.io questions:
+https://balta.io/blog/perguntas-entrevista-csharp
 
-Refactor/Tecnical TODO List:
+## Refactor/Tecnical TODO List:
 - [ ] Fix the QuizzList to proper Difficulty/Categories (this will take ages).
 - [ ] Randomizer question to reach x questions containing 5 easy, 5 medium and 5 hard questions (try to balance by categories)
 - [ ] UI with Console.Spectre (emphasys on code).
@@ -11,7 +11,7 @@ Refactor/Tecnical TODO List:
 - [ ] Persistence (in memory/sqlserver/redis)
 - [ ] Show prints on README.
 
-Epics To Do List:
+## Epics To Do List:
 - [ ] Make selectable answers so we don't need manual correction.
 - [ ] Make it possible to navigate through questions and reanswer them and confirm all questions before sending.
 - [ ] Quizz Admin - Make it possible to add/remove questions.
